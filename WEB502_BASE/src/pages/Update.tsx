@@ -1,16 +1,31 @@
 import { useForm } from "react-hook-form";
 import { InputStudent } from "../interfaces/student";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios, { AxiosError } from "axios";
+import { useEffect } from "react";
 
-function Add() {
-  const{register, handleSubmit, formState: {errors}} = useForm<InputStudent>()
+function Update() {
+  const{register, handleSubmit, formState: {errors}, reset} = useForm<InputStudent>()
   const navigate = useNavigate();
+  const {id} = useParams();
 
-  const onSubmit = async (data:InputStudent) => {
+  useEffect(() => {
+    if(id){
+      const getStudentById = async () => {
+        const {data} = await axios.get(`http://localhost:3000/students/${id}`);
+        if(data){
+          reset(data);
+        }
+      }
+      getStudentById();
+    }
+    
+  },[id]);
+
+  const onSubmit =async (data:InputStudent) => {
     try {
-      await axios.post(`http://localhost:3000/students`, data)
+      await axios.put(`http://localhost:3000/students/${id}`, data)
       toast.success("Complete !");
       navigate('/students')
     } catch (error) {
@@ -31,10 +46,10 @@ function Add() {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="text" className="form-label">
+          <label htmlFor="number" className="form-label">
             Year
           </label>
-          <input type="number" className="form-control" id="text" {...register("year", {required: "Error !!!"})}  />
+          <input type="text" className="form-control" id="text" {...register("year", {required: "Error !!!"})}  />
           {errors?.year && (<span className="text-danger">{errors?.year.message}</span>)}
         </div>
 
@@ -51,9 +66,9 @@ function Add() {
             Major
           </label>
           <select className="form-select" {...register("major", {required: "Error !!!"})}  >
-            <option value={1}>CNTT</option>
-            <option value={2}>Marketing</option>
-            <option value={3}>Design</option>
+            <option value={"CNTT"}>CNTT</option>
+            <option value={"Marketing"}>Marketing</option>
+            <option value={"Design"}>Design</option>
           </select>
         </div>
 
@@ -65,4 +80,4 @@ function Add() {
   );
 }
 
-export default Add;
+export default Update

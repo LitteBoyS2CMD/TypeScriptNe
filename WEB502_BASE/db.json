@@ -1,0 +1,19 @@
+{
+  "students": [
+    {
+      "name": "Gundam OO Command Qan[T]",
+      "year": "2000",
+      "image": "None",
+      "major": "3",
+      "id": 2
+    }
+  ],
+  "users": [
+    {
+      "email": "mungnvph52815@gmail.com",
+      "password": "$2a$10$o.DDBCVkOyABWyZgUIbsYuK80WWNqueu17TnEKd0mb9hYXvR.5vdq",
+      "username": "Mung",
+      "id": 1
+    }
+  ]
+}
